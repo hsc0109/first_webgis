@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.yls.metaluccs.server.mapper.TestCsvMapper">
+  <resultMap id="BaseResultMap" type="cn.yls.metaluccs.server.pojo.entity.TestCsv">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="ty" jdbcType="VARCHAR" property="ty" />
+    <result column="jwd" jdbcType="VARCHAR" property="jwd" />
+    <result column="geom" jdbcType="OTHER" property="geom" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, ty, jwd, geom
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from public.test_csv
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAllCsv" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from public.test_csv
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from public.test_csv
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.yls.metaluccs.server.pojo.entity.TestCsv">
+    insert into public.test_csv (id, name, ty, 
+      jwd, geom)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{ty,jdbcType=VARCHAR}, 
+      #{jwd,jdbcType=VARCHAR}, #{geom,jdbcType=OTHER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.yls.metaluccs.server.pojo.entity.TestCsv">
+    insert into public.test_csv
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="ty != null">
+        ty,
+      </if>
+      <if test="jwd != null">
+        jwd,
+      </if>
+      <if test="geom != null">
+        geom,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ty != null">
+        #{ty,jdbcType=VARCHAR},
+      </if>
+      <if test="jwd != null">
+        #{jwd,jdbcType=VARCHAR},
+      </if>
+      <if test="geom != null">
+        #{geom,jdbcType=OTHER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.yls.metaluccs.server.pojo.entity.TestCsv">
+    update public.test_csv
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ty != null">
+        ty = #{ty,jdbcType=VARCHAR},
+      </if>
+      <if test="jwd != null">
+        jwd = #{jwd,jdbcType=VARCHAR},
+      </if>
+      <if test="geom != null">
+        geom = #{geom,jdbcType=OTHER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.yls.metaluccs.server.pojo.entity.TestCsv">
+    update public.test_csv
+    set name = #{name,jdbcType=VARCHAR},
+      ty = #{ty,jdbcType=VARCHAR},
+      jwd = #{jwd,jdbcType=VARCHAR},
+      geom = #{geom,jdbcType=OTHER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateCsv" parameterType="cn.yls.metaluccs.server.pojo.entity.TestCsv">
+    update public.test_csv
+    set geom = ST_AsText(#{geom,jdbcType=OTHER})
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

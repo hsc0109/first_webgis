@@ -1,0 +1,45 @@
+server:
+  port: 8101
+  servlet:
+    context-path: /yls
+  zip:
+    rootPath: /home/hanl/Data/yls/lulc2020/zip/
+spring:
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:5432/yls
+    username: postgres
+    password: postgres
+    druid:
+      #初始化连接大小
+      initial-size: 5
+      #最小空闲连接数
+      min-idle: 5
+      #最大连接数
+      max-active: 20
+      validationQuery: SELECT 1 FROM DUAL
+      filters: stat
+      test-while-idle: true
+      test-on-borrow: true
+      test-on-return: false
+      max-wait: 30000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 30000
+mybatis:
+  type-aliases-package: cn.yls.metaluccs.server.pojo.entity    # 所有Entity别名类所在包
+  mapper-locations: classpath:mybatis/mapper/**/*.xml                       # mapper映射文件
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+geoserver:
+  url: http://localhost:8080/geoserver
+  username: admin
+  password: geoserver
+  shpworkspace: shp
+  imageworkspace: image
+
+
+

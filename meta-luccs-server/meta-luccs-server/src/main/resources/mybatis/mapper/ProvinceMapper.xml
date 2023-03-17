@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.yls.metaluccs.server.mapper.ProvinceMapper">
+    <resultMap id="BaseResultMap" type="cn.yls.metaluccs.server.pojo.entity.Province">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="country_id" jdbcType="VARCHAR" property="countryId"/>
+        <result column="country_name" jdbcType="VARCHAR" property="countryName"/>
+        <result column="province_name" jdbcType="VARCHAR" property="provinceName"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, code, country_id, country_name, province_name, del_flag
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from public.yls_world_province
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="selectProvincesByCountryId" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from public.yls_world_province
+      where country_id = #{countryId,jdbcType=VARCHAR} order by province_name
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from public.yls_world_province
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="cn.yls.metaluccs.server.pojo.entity.Province">
+        insert into public.yls_world_province (id, code, country_id,
+                                               country_name, province_name, del_flag)
+        values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{countryId,jdbcType=VARCHAR},
+                #{countryName,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR}, #{delFlag,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="cn.yls.metaluccs.server.pojo.entity.Province">
+        insert into public.yls_world_province
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="countryId != null">
+                country_id,
+            </if>
+            <if test="countryName != null">
+                country_name,
+            </if>
+            <if test="provinceName != null">
+                province_name,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="countryId != null">
+                #{countryId,jdbcType=VARCHAR},
+            </if>
+            <if test="countryName != null">
+                #{countryName,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceName != null">
+                #{provinceName,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.yls.metaluccs.server.pojo.entity.Province">
+        update public.yls_world_province
+        <set>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="countryId != null">
+                country_id = #{countryId,jdbcType=VARCHAR},
+            </if>
+            <if test="countryName != null">
+                country_name = #{countryName,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceName != null">
+                province_name = #{provinceName,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.yls.metaluccs.server.pojo.entity.Province">
+        update public.yls_world_province
+        set code          = #{code,jdbcType=VARCHAR},
+            country_id    = #{countryId,jdbcType=VARCHAR},
+            country_name  = #{countryName,jdbcType=VARCHAR},
+            province_name = #{provinceName,jdbcType=VARCHAR},
+            del_flag      = #{delFlag,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

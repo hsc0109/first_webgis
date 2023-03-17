@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.yls.metaluccs.server.mapper.DataSetMapper">
+  <resultMap id="BaseResultMap" type="cn.yls.metaluccs.server.pojo.entity.DataSet">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="data_set_name" jdbcType="VARCHAR" property="dataSetName" />
+    <result column="file_size" jdbcType="NUMERIC" property="fileSize" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="left" jdbcType="NUMERIC" property="left" />
+    <result column="right" jdbcType="NUMERIC" property="right" />
+    <result column="top" jdbcType="NUMERIC" property="top" />
+    <result column="bottom" jdbcType="NUMERIC" property="bottom" />
+    <result column="geom" jdbcType="OTHER" property="geom" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+  </resultMap>
+  <insert id="insert" parameterType="cn.yls.metaluccs.server.pojo.entity.DataSet">
+    insert into public.data_set (id, data_set_name, file_size, 
+      file_path,  "left", "right",
+      top, bottom, geom, del_flag
+      )
+    values (#{id,jdbcType=VARCHAR}, #{dataSetName,jdbcType=VARCHAR}, #{fileSize,jdbcType=NUMERIC},
+      #{filePath,jdbcType=VARCHAR}, #{left,jdbcType=NUMERIC}, #{right,jdbcType=NUMERIC}, 
+      #{top,jdbcType=NUMERIC}, #{bottom,jdbcType=NUMERIC}, #{geom,jdbcType=OTHER}, #{delFlag,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.yls.metaluccs.server.pojo.entity.DataSet">
+    insert into public.data_set
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dataSetName != null">
+        data_set_name,
+      </if>
+      <if test="fileSize != null">
+        file_size,
+      </if>
+      <if test="filePath != null">
+        file_path,
+      </if>
+      <if test="left != null">
+        "left",
+      </if>
+      <if test="right != null">
+        "right",
+      </if>
+      <if test="top != null">
+        top,
+      </if>
+      <if test="bottom != null">
+        bottom,
+      </if>
+      <if test="geom != null">
+        geom,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="dataSetName != null">
+        #{dataSetName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=NUMERIC},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="left != null">
+        #{left,jdbcType=NUMERIC},
+      </if>
+      <if test="right != null">
+        #{right,jdbcType=NUMERIC},
+      </if>
+      <if test="top != null">
+        #{top,jdbcType=NUMERIC},
+      </if>
+      <if test="bottom != null">
+        #{bottom,jdbcType=NUMERIC},
+      </if>
+      <if test="geom != null">
+        #{geom,jdbcType=OTHER},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+    <select id="searchDatasetByCorrd" resultMap="BaseResultMap">
+      SELECT *
+      from data_set
+      where ST_Contains(ST_AsGeoJson(ST_MPolyFromText(#{polygonStr,jdbcType=VARCHAR}, 4326)),
+                        ST_AsGeoJson(geom)) = 't'
+    </select>
+</mapper>
